@@ -4,100 +4,158 @@
  */
 package controlador;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
-import javax.swing.plaf.DesktopPaneUI;
+import javax.swing.JPanel;
 import view.Quizzes;
-import view.telaCreditos;
 import view.telaIntroducao;
-
+import view.telaCreditos;
+import view.telaFalhou;
 /**
  *
  * @author Discentes
  */
 public class Controlador2 {
     
-    JDesktopPane jDesktopPane1;
-    JButton jButtonCome, jButtonIntro, jButtonCredi;
 
-    public Controlador2(JDesktopPane jDesktopPane1, JButton jButtonCome, JButton jButtonIntro, JButton jButtonCredi) {
-        this.jDesktopPane1 = jDesktopPane1;
-        this.jButtonCome = jButtonCome;
-        this.jButtonIntro = jButtonIntro;
-        this.jButtonCredi = jButtonCredi;
+    private JDesktopPane jDesktopPane1;
+    private JButton jButtonCome, jButtonIntro, jButtonCredi;
+
+    private Component[] componentesMenu;
+    private JPanel painelAtual;
+
+    // Construtor
+    public Controlador2(JDesktopPane desktop,
+                        JButton come,
+                        JButton intro,
+                        JButton credi) {
+
+        this.jDesktopPane1 = desktop;
+        this.jButtonCome = come;
+        this.jButtonIntro = intro;
+        this.jButtonCredi = credi;
+
+        componentesMenu = desktop.getComponents();
     }
 
-    public JDesktopPane getjDesktopPane1() {
-        return jDesktopPane1;
-    }
+    // Abrir tela Começar
+    public void AbrirTelaCome() {
 
-    public void setjDesktopPane1(JDesktopPane jDesktopPane1) {
-        this.jDesktopPane1 = jDesktopPane1;
-    }
+        for (Component componente : componentesMenu) {
+            componente.setVisible(false);
+        }
 
-    public JButton getjButtonCome() {
-        return jButtonCome;
-    }
+        if (painelAtual != null) {
+            jDesktopPane1.remove(painelAtual);
+        }
 
-    public void setjButtonCome(JButton jButtonCome) {
-        this.jButtonCome = jButtonCome;
-    }
+        Dimension resolucao = jDesktopPane1.getSize();
+        Quizzes tela2 = new Quizzes(this);
 
-    public JButton getjButtonIntro() {
-        return jButtonIntro;
-    }
-
-    public void setjButtonIntro(JButton jButtonIntro) {
-        this.jButtonIntro = jButtonIntro;
-    }
-
-    public JButton getjButtonCredi() {
-        return jButtonCredi;
-    }
-
-    public void setjButtonCredi(JButton jButtonCredi) {
-        this.jButtonCredi = jButtonCredi;
-    }
-    
-    public void AbrirTelaCome(){
-          jDesktopPane1.removeAll();
-          jDesktopPane1.updateUI();
-          Dimension resolucao = jDesktopPane1.getSize();
-          Quizzes tela2 = new Quizzes();
         tela2.setSize(resolucao);
         tela2.setLocation(0, 0);
+
         jDesktopPane1.add(tela2);
         tela2.setVisible(true);
-    }
-    
-    
-    
-    public void AbrirTelaIntro(){
-          jDesktopPane1.removeAll();
-          jDesktopPane1.updateUI();
-          Dimension resolucao = jDesktopPane1.getSize();
-          telaIntroducao tela1 = new telaIntroducao();
-        tela1.setSize(resolucao);
-        tela1.setLocation(0, 0);
-        jDesktopPane1.add(tela1);
-        tela1.setVisible(true);
-    }
-    
-    public void AbrirTelaCredi(){
-          jDesktopPane1.removeAll();
-          jDesktopPane1.updateUI();
-          Dimension resolucao = jDesktopPane1.getSize();
-          telaCreditos tela3 = new telaCreditos();
-        tela3.setSize(resolucao);
-        tela3.setLocation(0, 0);
-        jDesktopPane1.add(tela3);
-        tela3.setVisible(true);
-    }
-    
-    public void voltar() {
-        jDesktopPane1.removeAll();
+
+        painelAtual = tela2;
+
         jDesktopPane1.revalidate();
         jDesktopPane1.repaint();
     }
+
+    // Abrir tela Introdução
+    public void AbrirTelaIntro() {
+
+        for (Component componente : componentesMenu) {
+            componente.setVisible(false);
+        }
+
+        if (painelAtual != null) {
+            jDesktopPane1.remove(painelAtual);
+        }
+
+        Dimension resolucao = jDesktopPane1.getSize();
+        telaIntroducao tela1 = new telaIntroducao(this);
+
+        tela1.setSize(resolucao);
+        tela1.setLocation(0, 0);
+
+        jDesktopPane1.add(tela1);
+        tela1.setVisible(true);
+
+        painelAtual = tela1;
+
+        jDesktopPane1.revalidate();
+        jDesktopPane1.repaint();
+    }
+
+    // Abrir tela Créditos
+    public void AbrirTelaCredi() {
+
+        for (Component componente : componentesMenu) {
+            componente.setVisible(false);
+        }
+
+        if (painelAtual != null) {
+            jDesktopPane1.remove(painelAtual);
+        }
+
+        Dimension resolucao = jDesktopPane1.getSize();
+        telaCreditos tela3 = new telaCreditos(this);
+
+        tela3.setSize(resolucao);
+        tela3.setLocation(0, 0);
+
+        jDesktopPane1.add(tela3);
+        tela3.setVisible(true);
+
+        painelAtual = tela3;
+
+        jDesktopPane1.revalidate();
+        jDesktopPane1.repaint();
+    }
+
+    // Abrir tela Falhou
+    public void AbrirTelaFalhou() {
+
+        if (painelAtual != null) {
+            jDesktopPane1.remove(painelAtual);
+        }
+
+        Dimension resolucao = jDesktopPane1.getSize();
+        telaFalhou tela4 = new telaFalhou(this);
+
+        tela4.setSize(resolucao);
+        tela4.setLocation(0, 0);
+
+        jDesktopPane1.add(tela4);
+        tela4.setVisible(true);
+
+        painelAtual = tela4;
+
+        jDesktopPane1.revalidate();
+        jDesktopPane1.repaint();
+    }
+
+    // Retornar ao menu principal
+    public void voltar(JPanel painel) {
+
+        if (painel == painelAtual &&
+            painel.getParent() == jDesktopPane1) {
+
+            jDesktopPane1.remove(painel);
+            painelAtual = null;
+
+            for (Component componente : componentesMenu) {
+                componente.setVisible(true);
+            }
+
+            jDesktopPane1.revalidate();
+            jDesktopPane1.repaint();
+        }
+    }
 }
+
